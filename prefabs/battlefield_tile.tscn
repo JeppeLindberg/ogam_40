@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnhfo76r1444t"]
+
+[ext_resource type="Script" path="res://scripts/battlefield_tile.gd" id="1_mugvd"]
+[ext_resource type="Texture2D" uid="uid://befhvcatq70de" path="res://asesprite/map.png" id="2_mswca"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xdb78"]
+size = Vector2(64, 64)
+
+[node name="battlefield_tile1" type="StaticBody2D"]
+position = Vector2(-160, 0)
+script = ExtResource("1_mugvd")
+
+[node name="collider" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xdb78")
+
+[node name="sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_mswca")
+region_enabled = true
+region_rect = Rect2(256, 0, 64, 64)

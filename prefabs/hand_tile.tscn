@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://b86ixwuthwdii"]
+
+[ext_resource type="Script" path="res://scripts/hand_tile.gd" id="1_qq8um"]
+[ext_resource type="Texture2D" uid="uid://befhvcatq70de" path="res://asesprite/map.png" id="1_xdk3p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xdb78"]
+size = Vector2(64, 64)
+
+[node name="hand_tile" type="StaticBody2D"]
+position = Vector2(0, 1)
+script = ExtResource("1_qq8um")
+
+[node name="collider" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xdb78")
+
+[node name="sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_xdk3p")
+region_enabled = true
+region_rect = Rect2(256, 0, 64, 64)
