@@ -17,5 +17,9 @@ func _unhandled_input(event):
 					creature.position = Vector2.ZERO
 				
 		if (event.button_index == MOUSE_BUTTON_LEFT) and (not event.pressed):
+			var ui = main.get_nodes_at(event.position, 'ui')
+			if not ui.is_empty():
+				ui[0].press_up()
+	
 			for child in get_children():
 				child.drop()

@@ -3,10 +3,11 @@
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_qpbng"]
 [ext_resource type="Texture2D" uid="uid://befhvcatq70de" path="res://asesprite/map.png" id="2_k778s"]
 
-[node name="creature" type="Node2D"]
+[node name="skip" type="Node2D"]
 script = ExtResource("1_qpbng")
+base_gleam = 3
 
 [node name="sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_k778s")
 region_enabled = true
-region_rect = Rect2(54, 79, 102, 58)
+region_rect = Rect2(968, 827, 95, 62)

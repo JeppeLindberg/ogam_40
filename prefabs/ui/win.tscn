@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8unco5ttnbk4"]
+
+[ext_resource type="Theme" uid="uid://cpdek10qbdbfo" path="res://theme.tres" id="1_kyj5r"]
+
+[node name="win" type="Node2D"]
+
+[node name="center" type="CenterContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+use_top_left = true
+
+[node name="text" type="Label" parent="center"]
+layout_mode = 2
+theme = ExtResource("1_kyj5r")
+text = "WIN
++1 score"
+horizontal_alignment = 1

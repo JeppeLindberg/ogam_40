@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1a2u7x3kevbx"]
+
+[ext_resource type="Script" path="res://scripts/stats.gd" id="1_574ik"]
+[ext_resource type="Theme" uid="uid://cpdek10qbdbfo" path="res://theme.tres" id="1_ymqsw"]
+
+[node name="stats" type="Node2D"]
+script = ExtResource("1_574ik")
+
+[node name="gleam" type="CenterContainer" parent="."]
+offset_top = -35.0
+offset_right = 40.0
+offset_bottom = 5.0
+use_top_left = true
+
+[node name="text" type="Label" parent="gleam"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_ymqsw")
+text = "89"
+
+[node name="insight" type="CenterContainer" parent="."]
+offset_top = 35.0
+offset_right = 40.0
+offset_bottom = 75.0
+use_top_left = true
+
+[node name="text" type="Label" parent="insight"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_ymqsw")
+text = "10"

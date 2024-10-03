@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsp1jx3khhgcv"]
+
+[ext_resource type="Script" path="res://scripts/creature.gd" id="1_1tqq5"]
+[ext_resource type="Texture2D" uid="uid://befhvcatq70de" path="res://asesprite/map.png" id="2_w7aqs"]
+
+[node name="skip" type="Node2D"]
+script = ExtResource("1_1tqq5")
+base_gleam = 4
+base_insight = 4
+
+[node name="sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_w7aqs")
+region_enabled = true
+region_rect = Rect2(1068, 886, 106, 74)

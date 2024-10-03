@@ -1,24 +1,49 @@
-[gd_scene load_steps=10 format=3 uid="uid://c4h4ka6fhfj38"]
+[gd_scene load_steps=26 format=4 uid="uid://c4h4ka6fhfj38"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_7bbcl"]
 [ext_resource type="PackedScene" uid="uid://b86ixwuthwdii" path="res://prefabs/hand_tile.tscn" id="1_18bvh"]
+[ext_resource type="Script" path="res://scripts/battle.gd" id="2_42e1u"]
 [ext_resource type="Script" path="res://scripts/hand.gd" id="2_ib8ny"]
 [ext_resource type="PackedScene" uid="uid://bnhfo76r1444t" path="res://prefabs/battlefield_tile.tscn" id="3_wq14h"]
+[ext_resource type="PackedScene" uid="uid://7f6avcnq43lo" path="res://prefabs/enemy_tile.tscn" id="4_lq06d"]
 [ext_resource type="PackedScene" uid="uid://bapruocpssecv" path="res://prefabs/creatures/skip.tscn" id="5_km1o0"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="6_luhct"]
 [ext_resource type="Script" path="res://scripts/battlefield.gd" id="6_y4d78"]
-[ext_resource type="Script" path="res://scripts/creature_state.gd" id="8_3h87k"]
-[ext_resource type="FontFile" uid="uid://cgfeefyujdg8o" path="res://fonts/ark-pixel-12px-proportional-latin.otf" id="9_nhh2d"]
+[ext_resource type="PackedScene" uid="uid://bgt377ml8y04n" path="res://prefabs/creatures/boy_3.tscn" id="8_0qx1y"]
+[ext_resource type="Script" path="res://scripts/creature_stats.gd" id="8_3h87k"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="8_mlovc"]
+[ext_resource type="PackedScene" uid="uid://c1a2u7x3kevbx" path="res://prefabs/stats.tscn" id="9_datnd"]
+[ext_resource type="PackedScene" uid="uid://bsp1jx3khhgcv" path="res://prefabs/creatures/boy_4.tscn" id="9_pg1gt"]
+[ext_resource type="PackedScene" uid="uid://dg1hilcb8k8v2" path="res://prefabs/creatures/boy_2.tscn" id="9_qb78u"]
+[ext_resource type="Script" path="res://scripts/ui/resolve.gd" id="12_2shqs"]
+[ext_resource type="Theme" uid="uid://cpdek10qbdbfo" path="res://theme.tres" id="12_ssupt"]
+[ext_resource type="PackedScene" uid="uid://b8unco5ttnbk4" path="res://prefabs/ui/win.tscn" id="14_8fahv"]
+[ext_resource type="PackedScene" uid="uid://i6j8wif10f87" path="res://prefabs/ui/loss.tscn" id="15_mn42j"]
+[ext_resource type="PackedScene" uid="uid://d3j2maw7j58a4" path="res://prefabs/ui/tie.tscn" id="16_rqa6f"]
+[ext_resource type="Script" path="res://scripts/ui/continue.gd" id="20_ocjp1"]
+[ext_resource type="Script" path="res://scripts/effects.gd" id="21_fblj1"]
+[ext_resource type="Script" path="res://scripts/world.gd" id="23_32md0"]
+[ext_resource type="TileSet" uid="uid://covx5k6bh2t5x" path="res://tileset.tres" id="24_v6ult"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a65ko"]
+size = Vector2(128, 30)
 
 [node name="main" type="Node"]
 script = ExtResource("1_7bbcl")
 
 [node name="battle" type="Node2D" parent="."]
+visible = false
+script = ExtResource("2_42e1u")
+
+[node name="measures" type="Node2D" parent="battle"]
+
+[node name="win_loss_mark" type="Node2D" parent="battle/measures"]
+position = Vector2(0, 219)
 
 [node name="tiles" type="Node2D" parent="battle"]
 
 [node name="hand_tiles" type="Node2D" parent="battle/tiles"]
-position = Vector2(320, 286)
+position = Vector2(224, 295)
 
 [node name="hand_tile1" parent="battle/tiles/hand_tiles" instance=ExtResource("1_18bvh")]
 position = Vector2(-160, 0)
@@ -39,7 +64,7 @@ position = Vector2(96, 0)
 position = Vector2(160, 0)
 
 [node name="battlefield_tiles" type="Node2D" parent="battle/tiles"]
-position = Vector2(320, 160)
+position = Vector2(224, 151)
 
 [node name="battlefield_tile1" parent="battle/tiles/battlefield_tiles" instance=ExtResource("3_wq14h")]
 
@@ -58,40 +83,118 @@ position = Vector2(96, 0)
 [node name="battlefield_tile6" parent="battle/tiles/battlefield_tiles" instance=ExtResource("3_wq14h")]
 position = Vector2(160, 0)
 
+[node name="enemy_tiles" type="Node2D" parent="battle/tiles"]
+position = Vector2(224, 56)
+
+[node name="enemy_tile1" parent="battle/tiles/enemy_tiles" instance=ExtResource("4_lq06d")]
+position = Vector2(-160, 0)
+
+[node name="enemy_tile2" parent="battle/tiles/enemy_tiles" instance=ExtResource("4_lq06d")]
+position = Vector2(-96, 0)
+
+[node name="enemy_tile3" parent="battle/tiles/enemy_tiles" instance=ExtResource("4_lq06d")]
+position = Vector2(-32, 0)
+
+[node name="enemy_tile4" parent="battle/tiles/enemy_tiles" instance=ExtResource("4_lq06d")]
+position = Vector2(32, 0)
+
+[node name="enemy_tile5" parent="battle/tiles/enemy_tiles" instance=ExtResource("4_lq06d")]
+position = Vector2(96, 0)
+
+[node name="enemy_tile6" parent="battle/tiles/enemy_tiles" instance=ExtResource("4_lq06d")]
+position = Vector2(160, 0)
+
 [node name="creatures" type="Node2D" parent="battle"]
 
 [node name="hand" type="Node2D" parent="battle/creatures"]
 script = ExtResource("2_ib8ny")
 
-[node name="creature" parent="battle/creatures/hand" instance=ExtResource("5_km1o0")]
-position = Vector2(160, 320)
+[node name="skip" parent="battle/creatures/hand" instance=ExtResource("5_km1o0")]
+position = Vector2(63, 286)
 
-[node name="creature2" parent="battle/creatures/hand" instance=ExtResource("5_km1o0")]
-modulate = Color(1, 1, 1, 0.447059)
-position = Vector2(219, 285)
+[node name="skip2" parent="battle/creatures/hand" instance=ExtResource("9_qb78u")]
+position = Vector2(125, 281)
+
+[node name="skip3" parent="battle/creatures/hand" instance=ExtResource("8_0qx1y")]
+position = Vector2(192, 284)
+
+[node name="skip4" parent="battle/creatures/hand" instance=ExtResource("9_pg1gt")]
+position = Vector2(256, 273)
 
 [node name="battlefield" type="Node2D" parent="battle/creatures"]
 script = ExtResource("6_y4d78")
 
+[node name="enemy" type="Node2D" parent="battle/creatures"]
+script = ExtResource("8_mlovc")
+
+[node name="skip" parent="battle/creatures/enemy" instance=ExtResource("5_km1o0")]
+position = Vector2(62, 63)
+
+[node name="skip2" parent="battle/creatures/enemy" instance=ExtResource("9_qb78u")]
+position = Vector2(125, 68)
+
+[node name="skip3" parent="battle/creatures/enemy" instance=ExtResource("8_0qx1y")]
+position = Vector2(189, 63)
+
+[node name="skip4" parent="battle/creatures/enemy" instance=ExtResource("9_pg1gt")]
+position = Vector2(256, 59)
+
 [node name="player" type="Node2D" parent="battle"]
 script = ExtResource("6_luhct")
 
-[node name="creature_state" type="Node2D" parent="battle"]
+[node name="creature_stats" type="Node2D" parent="battle"]
 script = ExtResource("8_3h87k")
+stats_prefab = ExtResource("9_datnd")
+win_prefab = ExtResource("14_8fahv")
+tie_prefab = ExtResource("16_rqa6f")
+loss_prefab = ExtResource("15_mn42j")
 
-[node name="stats" type="Node2D" parent="battle/creature_state"]
-position = Vector2(160, 286)
+[node name="ui" type="Node2D" parent="battle"]
 
-[node name="center" type="CenterContainer" parent="battle/creature_state/stats"]
-offset_top = -35.0
+[node name="resolve" type="StaticBody2D" parent="battle/ui"]
+position = Vector2(530, 148)
+script = ExtResource("12_2shqs")
+
+[node name="collider" type="CollisionShape2D" parent="battle/ui/resolve"]
+shape = SubResource("RectangleShape2D_a65ko")
+
+[node name="center" type="CenterContainer" parent="battle/ui/resolve"]
 offset_right = 40.0
-offset_bottom = 5.0
+offset_bottom = 40.0
 use_top_left = true
 
-[node name="text" type="Label" parent="battle/creature_state/stats/center"]
+[node name="text" type="Label" parent="battle/ui/resolve/center"]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("9_nhh2d")
-theme_override_font_sizes/font_size = 24
-text = "0123456789"
-horizontal_alignment = 1
+theme = ExtResource("12_ssupt")
+text = "RESOLVE"
+
+[node name="continue" type="StaticBody2D" parent="battle/ui"]
+position = Vector2(530, 108)
+script = ExtResource("20_ocjp1")
+
+[node name="collider" type="CollisionShape2D" parent="battle/ui/continue"]
+shape = SubResource("RectangleShape2D_a65ko")
+
+[node name="center" type="CenterContainer" parent="battle/ui/continue"]
+offset_right = 40.0
+offset_bottom = 40.0
+use_top_left = true
+
+[node name="text" type="Label" parent="battle/ui/continue/center"]
+layout_mode = 2
+theme = ExtResource("12_ssupt")
+text = "CONTINUE"
+
+[node name="effects" type="Node2D" parent="battle"]
+script = ExtResource("21_fblj1")
+
+[node name="world" type="Node2D" parent="."]
+script = ExtResource("23_32md0")
+
+[node name="obstructing" type="TileMapLayer" parent="world"]
+tile_map_data = PackedByteArray("AAAAAAAAAAARABUAAAABAAAAAAARABUAAAACAAAAAAARABUAAAADAAAAAAARABUAAAAEAAAAAAARABUAAAAFAAAAAAARABUAAAAGAAAAAAARABUAAAAHAAAAAAARABUAAAAIAAAAAAARABUAAAAJAAAAAAARABUAAAAKAAAAAAARABUAAAALAAAAAAARABUAAAAMAAAAAAARABUAAAAMAAEAAAARABUAAAALAAEAAAARABUAAAAKAAEAAAARABUAAAAJAAEAAAARABUAAAAIAAEAAAARABUAAAAHAAEAAAARABUAAAAGAAEAAAARABUAAAAFAAEAAAARABUAAAAEAAEAAAARABUAAAADAAEAAAARABUAAAACAAEAAAARABUAAAABAAEAAAARABUAAAAAAAEAAAARABUAAAAAAAIAAAARABUAAAABAAIAAAARABUAAAACAAIAAAASABUAAAADAAIAAAASABUAAAAEAAIAAAARABUAAAAFAAIAAAARABUAAAAGAAIAAAASABUAAAAHAAIAAAASABUAAAAIAAIAAAARABUAAAAJAAIAAAARABUAAAAKAAIAAAARABUAAAALAAIAAAARABUAAAAMAAIAAAARABUAAAAMAAMAAAARABUAAAALAAMAAAARABUAAAAKAAMAAAARABUAAAAIAAMAAAAUABYAAAAHAAMAAAAUABYAAAAGAAMAAAATABYAAAAFAAMAAAARABUAAAAEAAMAAAARABUAAAADAAMAAAASABUAAAACAAMAAAASABUAAAABAAMAAAARABUAAAAAAAMAAAARABUAAAAAAAQAAAARABUAAAABAAQAAAARABUAAAACAAQAAAAQABcAAAADAAQAAAARABYAAAAEAAQAAAARABUAAAAFAAQAAAARABUAAAAGAAQAAAATABcAAAAHAAQAAAAXABcAAAAIAAQAAAAWABcAAAAJAAQAAAAVABcAAAAKAAQAAAARABUAAAALAAQAAAARABUAAAAMAAQAAAARABUAAAAMAAUAAAARABUAAAALAAUAAAARABUAAAAKAAUAAAARABUAAAAJAAUAAAARABUAAAAIAAUAAAARABUAAAAHAAUAAAARABUAAAAGAAUAAAARABUAAAAFAAUAAAARABUAAAAEAAUAAAARABUAAAADAAUAAAARABUAAAACAAUAAAARABUAAAABAAUAAAARABUAAAAAAAUAAAARABUAAAAAAAYAAAARABUAAAABAAYAAAARABUAAAACAAYAAAARABUAAAADAAYAAAARABUAAAAEAAYAAAARABUAAAAFAAYAAAARABUAAAAGAAYAAAARABUAAAAHAAYAAAARABUAAAAIAAYAAAARABUAAAAJAAYAAAARABUAAAAKAAYAAAARABUAAAALAAYAAAARABUAAAAMAAYAAAARABUAAAAJAAMAAAAVABYAAAA=")
+tile_set = ExtResource("24_v6ult")
+
+[node name="covering" type="TileMapLayer" parent="world"]
+tile_map_data = PackedByteArray("AAAGAAIAAAATABUAAAAIAAIAAAAUABUAAAAHAAIAAAAUABUAAAAJAAIAAAAVABUAAAACAAMAAAAQABYAAAA=")
+tile_set = ExtResource("24_v6ult")

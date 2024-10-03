@@ -16,4 +16,4 @@ shape = SubResource("RectangleShape2D_xdb78")
 [node name="sprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_xdk3p")
 region_enabled = true
-region_rect = Rect2(256, 0, 64, 64)
+region_rect = Rect2(1092, 754, 52, 52)

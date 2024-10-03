@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cpdek10qbdbfo"]
+
+[ext_resource type="FontFile" uid="uid://dlntlv12i8aow" path="res://fonts/ark-pixel-10px-proportional-latin.otf" id="1_tpibo"]
+
+[resource]
+default_font = ExtResource("1_tpibo")
+default_font_size = 20
