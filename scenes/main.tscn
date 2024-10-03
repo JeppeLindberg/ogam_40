@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c4h4ka6fhfj38"]
+[gd_scene load_steps=10 format=3 uid="uid://c4h4ka6fhfj38"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_7bbcl"]
 [ext_resource type="PackedScene" uid="uid://b86ixwuthwdii" path="res://prefabs/hand_tile.tscn" id="1_18bvh"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://bapruocpssecv" path="res://prefabs/creatures/skip.tscn" id="5_km1o0"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="6_luhct"]
 [ext_resource type="Script" path="res://scripts/battlefield.gd" id="6_y4d78"]
+[ext_resource type="Script" path="res://scripts/creature_state.gd" id="8_3h87k"]
+[ext_resource type="FontFile" uid="uid://cgfeefyujdg8o" path="res://fonts/ark-pixel-12px-proportional-latin.otf" id="9_nhh2d"]
 
 [node name="main" type="Node"]
 script = ExtResource("1_7bbcl")
@@ -16,7 +18,7 @@ script = ExtResource("1_7bbcl")
 [node name="tiles" type="Node2D" parent="battle"]
 
 [node name="hand_tiles" type="Node2D" parent="battle/tiles"]
-position = Vector2(320, 310)
+position = Vector2(320, 286)
 
 [node name="hand_tile1" parent="battle/tiles/hand_tiles" instance=ExtResource("1_18bvh")]
 position = Vector2(-160, 0)
@@ -56,18 +58,40 @@ position = Vector2(96, 0)
 [node name="battlefield_tile6" parent="battle/tiles/battlefield_tiles" instance=ExtResource("3_wq14h")]
 position = Vector2(160, 0)
 
-[node name="hand" type="Node2D" parent="battle"]
+[node name="creatures" type="Node2D" parent="battle"]
+
+[node name="hand" type="Node2D" parent="battle/creatures"]
 script = ExtResource("2_ib8ny")
 
-[node name="creature" parent="battle/hand" instance=ExtResource("5_km1o0")]
+[node name="creature" parent="battle/creatures/hand" instance=ExtResource("5_km1o0")]
 position = Vector2(160, 320)
 
-[node name="creature2" parent="battle/hand" instance=ExtResource("5_km1o0")]
+[node name="creature2" parent="battle/creatures/hand" instance=ExtResource("5_km1o0")]
 modulate = Color(1, 1, 1, 0.447059)
 position = Vector2(219, 285)
 
-[node name="battlefield" type="Node2D" parent="battle"]
+[node name="battlefield" type="Node2D" parent="battle/creatures"]
 script = ExtResource("6_y4d78")
 
 [node name="player" type="Node2D" parent="battle"]
 script = ExtResource("6_luhct")
+
+[node name="creature_state" type="Node2D" parent="battle"]
+script = ExtResource("8_3h87k")
+
+[node name="stats" type="Node2D" parent="battle/creature_state"]
+position = Vector2(160, 286)
+
+[node name="center" type="CenterContainer" parent="battle/creature_state/stats"]
+offset_top = -35.0
+offset_right = 40.0
+offset_bottom = 5.0
+use_top_left = true
+
+[node name="text" type="Label" parent="battle/creature_state/stats/center"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("9_nhh2d")
+theme_override_font_sizes/font_size = 24
+text = "0123456789"
+horizontal_alignment = 1

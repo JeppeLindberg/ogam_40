@@ -1,12 +1,14 @@
 extends Node2D
 
 
-@onready var hand: Node2D = get_node('/root/main/battle/hand')
-@onready var battlefield: Node2D = get_node('/root/main/battle/battlefield')
+@onready var hand: Node2D = get_node('/root/main/battle/creatures/hand')
+@onready var battlefield: Node2D = get_node('/root/main/battle/creatures/battlefield')
 @onready var main: Node = get_node('/root/main')
 @onready var battle: Node2D = get_node('/root/main/battle')
 
 var target_position
+var state = ''
+var index = -1
 
 
 func _ready() -> void:

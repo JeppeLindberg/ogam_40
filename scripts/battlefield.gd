@@ -3,6 +3,26 @@ extends Node2D
 
 @onready var battlefield_tiles = get_node('/root/main/battle/tiles/battlefield_tiles')
 
+
+var initalized = false
+
+func _process(_delta: float) -> void:
+	if not initalized:
+		var possible_positions = []
+
+		for child in battlefield_tiles.get_children():
+			possible_positions.append(child.global_position)
+
+		possible_positions.sort_custom(_x_ascending)
+
+		for i in range(len(possible_positions)):
+			for child in battlefield_tiles.get_children():
+				if child.global_position == possible_positions[i]:
+					child.index = i
+					break
+
+		initalized = true
+
 func add_creature(new_creature):
 	var possible_positions = []
 
@@ -64,3 +84,6 @@ func _closest_to_c_ascending(a, b):
 	
 func _pos_x_ascending(a, b):
 	return a.global_position.x < b.global_position.x
+	
+func _x_ascending(a, b):
+	return a.x < b.x
