@@ -8,7 +8,6 @@ var initalized = false
 
 func _process(_delta: float) -> void:
 	if not initalized:
-		print('initalized')
 		var possible_positions = []
 
 		for tile in enemy_tiles.get_children():

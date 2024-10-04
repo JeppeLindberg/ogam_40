@@ -2,6 +2,8 @@ extends Node
 
 @onready var battle:Node2D = get_node('/root/main/battle')
 
+@export_flags_2d_physics var world_obstruction_layer
+
 var _curr_secs:float
 var _delta_secs:float
 
