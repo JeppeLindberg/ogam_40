@@ -1,11 +1,24 @@
 extends Node
 
 @onready var battle:Node2D = get_node('/root/main/battle')
+@onready var world:Node2D = get_node('/root/main/world')
 
 @export_flags_2d_physics var world_obstruction_layer
 
 var _curr_secs:float
 var _delta_secs:float
+
+var initalized = false
+
+func _process(_delta: float) -> void:
+	if not initalized:
+		world.deactivate()
+		battle.deactivate()
+		world.activate()
+		
+	var time_elapsed = float(Time.get_ticks_msec()) / 1000.0;
+	_delta_secs = time_elapsed - _curr_secs
+	_curr_secs = time_elapsed
 
 func create_node(prefab, parent):
 	var new_node = prefab.instantiate()

@@ -3,6 +3,8 @@ extends Node2D
 
 @onready var battlefield_tiles = get_node('/root/main/battle/tiles/battlefield_tiles')
 
+var _static := preload("res://scripts/library/static.gd").new()
+
 
 var initalized = false
 
@@ -13,7 +15,7 @@ func _process(_delta: float) -> void:
 		for tile in battlefield_tiles.get_children():
 			possible_positions.append(tile.global_position)
 
-		possible_positions.sort_custom(_x_ascending)
+		possible_positions.sort_custom(_static.x_ascending)
 
 		for i in range(len(possible_positions)):
 			for tile in battlefield_tiles.get_children():
@@ -71,7 +73,7 @@ func remove_creature(old_creature):
 	for child in get_children():
 		if child != old_creature and child.is_in_group('creature'):
 			children.append(child)
-	children.sort_custom(_pos_x_ascending)
+	children.sort_custom(_static.pos_x_ascending)
 
 	for i in range(len(children)):
 		if children[i].is_in_group('creature'):
@@ -83,12 +85,6 @@ var compare: Vector2
 func _closest_to_c_ascending(a, b):
 	return a.distance_to(compare) < b.distance_to(compare)
 	
-func _pos_x_ascending(a, b):
-	return a.global_position.x < b.global_position.x
-	
 func _pos_x_descending(a, b):
 	return a.global_position.x > b.global_position.x
-	
-func _x_ascending(a, b):
-	return a.x < b.x
 

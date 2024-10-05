@@ -21,7 +21,11 @@ func unset_creature():
 		current_creature.index = -1
 	current_creature = null
 
+func activate():
+	collider.disabled = false
+	
 func deactivate():
+	current_creature = null
 	collider.disabled = true
 
 

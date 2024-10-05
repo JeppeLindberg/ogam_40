@@ -7,12 +7,14 @@ extends Node2D
 @onready var main: Node = get_node('/root/main')
 @onready var battle: Node2D = get_node('/root/main/battle')
 @onready var creature_stats: Node2D = get_node('/root/main/battle/creature_stats')
+@onready var player_lineup: Node2D = get_node('/root/main/battle/player_lineup')
 
 @export var base_gleam: int = 1
 @export var base_insight: int = 1
 
 var target_position = Vector2.ZERO
 var index = -1
+var player_lineup_index = -1
 
 
 func _ready() -> void:
@@ -34,6 +36,10 @@ func move_to_battlefield():
 func move_to_enemy():
 	reparent(enemy)
 	enemy.add_creature(self)
+
+func move_to_player_lineup():
+	unset_target_position()
+	reparent(player_lineup)
 
 func set_target_position(new_target_position):
 	var from_battlefield = false
