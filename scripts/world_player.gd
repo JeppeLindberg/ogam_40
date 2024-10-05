@@ -66,25 +66,24 @@ func _is_pos_occupied(pos):
 		return true;
 	
 func _handle_sprite(prev_direction, new_direction):
-	if prev_direction == new_direction:
-		return
-
-	if prev_direction != Vector2.UP and new_direction == Vector2.UP:
-		sprite.walk_up()
-	elif prev_direction != Vector2.DOWN and new_direction == Vector2.DOWN:
-		sprite.walk_down()
-	elif prev_direction != Vector2.LEFT and new_direction == Vector2.LEFT:
-		sprite.walk_left()
-	elif prev_direction != Vector2.RIGHT and new_direction == Vector2.RIGHT:
-		sprite.walk_right()
-	elif look_direction == Vector2.UP:
-		sprite.look_up()
-	elif look_direction == Vector2.DOWN:
-		sprite.look_down()
-	elif look_direction == Vector2.LEFT:
-		sprite.look_left()
-	elif look_direction == Vector2.RIGHT:
-		sprite.look_right()
+	if prev_direction != new_direction:
+		if prev_direction != Vector2.UP and new_direction == Vector2.UP:
+			sprite.walk_up()
+		elif prev_direction != Vector2.DOWN and new_direction == Vector2.DOWN:
+			sprite.walk_down()
+		elif prev_direction != Vector2.LEFT and new_direction == Vector2.LEFT:
+			sprite.walk_left()
+		elif prev_direction != Vector2.RIGHT and new_direction == Vector2.RIGHT:
+			sprite.walk_right()
+	elif new_direction == Vector2.ZERO:
+		if look_direction == Vector2.UP:
+			sprite.look_up()
+		elif look_direction == Vector2.DOWN:
+			sprite.look_down()
+		elif look_direction == Vector2.LEFT:
+			sprite.look_left()
+		elif look_direction == Vector2.RIGHT:
+			sprite.look_right()
 
 func _handle_interact():
 	var interactables = main.get_nodes_at(global_position + look_direction * (_static.GRID_SIZE * 0.75), 'interactable')

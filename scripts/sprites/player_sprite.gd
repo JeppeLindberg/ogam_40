@@ -10,7 +10,7 @@ extends Sprite2D
 @export var walk_right_rect_cycle:Array[Rect2]
 
 var _animation_changed_sec = 0.0
-var _current_anim = 'walk_down'
+var _current_anim = ''
 var _play_animation = false
 
 
@@ -34,37 +34,49 @@ func _process(_delta: float) -> void:
 		region_rect = walk_left_rect_cycle[frame_index]
 
 func walk_up():
+	if _current_anim == 'walk_up':
+		return;
 	_animation_changed_sec = main.curr_secs()
 	_current_anim = 'walk_up'
 	_play_animation = true
 
 func walk_down():
+	if _current_anim == 'walk_down':
+		return;
 	_animation_changed_sec = main.curr_secs()
 	_current_anim = 'walk_down'
 	_play_animation = true
 
 func walk_left():
+	if _current_anim == 'walk_left':
+		return;
 	_animation_changed_sec = main.curr_secs()
 	_current_anim = 'walk_left'
 	_play_animation = true
 
 func walk_right():
+	if _current_anim == 'walk_right':
+		return;
 	_animation_changed_sec = main.curr_secs()
 	_current_anim = 'walk_right'
 	_play_animation = true
 
 func look_up():
+	_current_anim = 'look_up';
 	region_rect = walk_up_rect_cycle[0]
 	_play_animation = false
 
 func look_down():
+	_current_anim = 'look_down';
 	region_rect = walk_down_rect_cycle[0]
 	_play_animation = false
 
 func look_left():
+	_current_anim = 'look_left';
 	region_rect = walk_left_rect_cycle[0]
 	_play_animation = false
 
 func look_right():
+	_current_anim = 'look_right';
 	region_rect = walk_right_rect_cycle[0]
 	_play_animation = false
