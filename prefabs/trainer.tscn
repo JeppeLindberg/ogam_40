@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://m0si2xtdd6kl"]
+
+[ext_resource type="Script" path="res://scripts/interactables/trainer.gd" id="1_30e8q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qeuaa"]
+size = Vector2(30, 30)
+
+[node name="trainer" type="StaticBody2D"]
+position = Vector2(442, 26)
+script = ExtResource("1_30e8q")
+pre_battle_dialouge = Array[String](["Greetings, fool!\\nBattle me if you dare!"])
+post_battle_dialouge = Array[String](["How could this be?"])
+
+[node name="collider" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qeuaa")
+
+[node name="lineup" type="Node2D" parent="."]

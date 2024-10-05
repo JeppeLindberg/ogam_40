@@ -47,6 +47,10 @@ func _process(delta: float) -> void:
 
 	_handle_sprite(prev_buffered_movement, buffered_movement_direction)
 
+func return_from_battle():
+	if active_interactable != null:
+		active_interactable.return_from_battle()
+
 func _handle_controls(_delta):
 	var input := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	

@@ -12,9 +12,8 @@ var initalized = false
 
 func _process(_delta: float) -> void:
 	if not initalized:
-		world.deactivate()
-		battle.deactivate()
 		world.activate()
+		initalized = true;
 		
 	var time_elapsed = float(Time.get_ticks_msec()) / 1000.0;
 	_delta_secs = time_elapsed - _curr_secs

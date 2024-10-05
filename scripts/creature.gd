@@ -15,6 +15,7 @@ extends Node2D
 var target_position = Vector2.ZERO
 var index = -1
 var player_lineup_index = -1
+var trainer_owner = null
 
 
 func _ready() -> void:

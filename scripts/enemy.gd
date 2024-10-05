@@ -61,8 +61,10 @@ func add_creature(new_creature):
 		if child.is_in_group('creature'):
 			if child.target_position >= closest_to_new_creature[0]:
 				child.set_target_position(child.target_position + Vector2(64, 0))
+				child.global_position = child.target_position
 
 	new_creature.set_target_position(closest_to_new_creature[0])
+	new_creature.global_position = new_creature.target_position
 
 var compare: Vector2
 

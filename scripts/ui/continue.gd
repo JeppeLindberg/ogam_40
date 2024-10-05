@@ -1,8 +1,7 @@
 extends StaticBody2D
 
-@onready var creature_stats: Node2D = get_node('/root/main/battle/creature_stats')
-@onready var effects: Node2D = get_node('/root/main/battle/effects')
 @onready var collider: CollisionShape2D = get_node('collider')
+@onready var world:Node2D = get_node('/root/main/world')
 
 
 func _ready() -> void:
@@ -16,7 +15,5 @@ func deactivate():
 	collider.disabled = true
 	visible = false
 
-
 func press_up():
-	creature_stats.clean_up()
-	effects.clean_up()
+	world.activate()
