@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=4 uid="uid://c4h4ka6fhfj38"]
+[gd_scene load_steps=42 format=4 uid="uid://c4h4ka6fhfj38"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_7bbcl"]
 [ext_resource type="PackedScene" uid="uid://b86ixwuthwdii" path="res://prefabs/hand_tile.tscn" id="1_18bvh"]
@@ -31,6 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://m0si2xtdd6kl" path="res://prefabs/trainer.tscn" id="27_q56s8"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="28_432y1"]
 [ext_resource type="Script" path="res://scripts/sprites/player_sprite.gd" id="28_a5kdn"]
+[ext_resource type="Script" path="res://scripts/ui/ui.gd" id="31_g1cjy"]
 [ext_resource type="Script" path="res://scripts/ui/dialouge.gd" id="31_po6tj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qeuaa"]
@@ -235,6 +236,7 @@ tile_map_data = PackedByteArray("AAACAAMAAAAQABYAAAD//wIAAAAOABUAAAD//wQAAAAOABU
 tile_set = ExtResource("24_v6ult")
 
 [node name="ui" type="CanvasLayer" parent="."]
+script = ExtResource("31_g1cjy")
 
 [node name="dialouge_container" type="VBoxContainer" parent="ui"]
 anchors_preset = 15

@@ -18,12 +18,6 @@ var active_interactable = null
 func _process(delta: float) -> void:	
 	_handle_controls(delta)
 
-	if active_interactable != null:
-		if pending_interact:
-			pending_interact = false
-			active_interactable.interact()
-		return;
-
 	if movement_direction != Vector2.ZERO:
 		look_direction = movement_direction
 
@@ -35,15 +29,21 @@ func _process(delta: float) -> void:
 			buffered_movement_direction = Vector2.ZERO
 			global_position = _static.snap_to_grid(global_position)
 
-	if (buffered_movement_direction == Vector2.ZERO) and (not _is_pos_occupied(global_position + movement_direction * Vector2(_static.GRID_SIZE, _static.GRID_SIZE))):
-		buffered_movement_direction = movement_direction
+	prev_position = global_position
 
-	if (buffered_movement_direction == Vector2.ZERO) and pending_interact:
-		pending_interact = false
-		_handle_interact()
+	if active_interactable == null:
+		if (buffered_movement_direction == Vector2.ZERO) and (not _is_pos_occupied(global_position + movement_direction * Vector2(_static.GRID_SIZE, _static.GRID_SIZE))):
+			buffered_movement_direction = movement_direction
+
+		if (buffered_movement_direction == Vector2.ZERO) and pending_interact:
+			pending_interact = false
+			_handle_interact()
+		else:
+			global_position += buffered_movement_direction * movement_speed * delta
 	else:
-		prev_position = global_position
-		global_position += buffered_movement_direction * movement_speed * delta
+		if pending_interact:
+			pending_interact = false
+			active_interactable.interact()
 
 	_handle_sprite(prev_buffered_movement, buffered_movement_direction)
 
