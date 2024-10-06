@@ -1,13 +1,14 @@
 extends Node2D
 
 @onready var player: Node2D = get_node('/root/main/world/world_player')
-@onready var dialouge_ui: Control = get_node('/root/main/ui/dialouge_container/dialouge')
+@onready var dialouge_ui: Control = get_node('/root/main/ui/dialouge_container/container/dialouge')
 @onready var battle: Node2D = get_node('/root/main/battle')
 @onready var lineup: Node2D = get_node('lineup')
 @onready var enemy_lineup: Node2D = get_node('/root/main/battle/enemy_lineup')
 
 @export var pre_battle_dialouge: Array[String]
 @export var post_battle_dialouge: Array[String]
+@export var dialouge_texture_rect: Rect2
 
 var pre_battle_dialouge_index = -1
 var battle_commencing = false
@@ -22,6 +23,7 @@ func interact():
 	if pre_battle_dialouge_index == -1:
 		player.active_interactable = self
 		pre_battle_dialouge_index = 0;
+		dialouge_ui.set_texture_rect(dialouge_texture_rect)
 		dialouge_ui.send_text(pre_battle_dialouge[pre_battle_dialouge_index])
 	elif not battle_commencing:
 		if dialouge_ui.progress():
@@ -32,6 +34,7 @@ func interact():
 			dialouge_ui.send_text(pre_battle_dialouge[pre_battle_dialouge_index])
 	elif battle_complete and post_battle_dialouge_index == -1:
 		post_battle_dialouge_index = 0
+		dialouge_ui.set_texture_rect(dialouge_texture_rect)
 		dialouge_ui.send_text(post_battle_dialouge[post_battle_dialouge_index])
 	elif battle_complete:
 		if dialouge_ui.progress():

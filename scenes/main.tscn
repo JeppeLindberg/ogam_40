@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=4 uid="uid://c4h4ka6fhfj38"]
+[gd_scene load_steps=41 format=4 uid="uid://c4h4ka6fhfj38"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_7bbcl"]
 [ext_resource type="PackedScene" uid="uid://b86ixwuthwdii" path="res://prefabs/hand_tile.tscn" id="1_18bvh"]
@@ -18,12 +18,11 @@
 [ext_resource type="PackedScene" uid="uid://bsp1jx3khhgcv" path="res://prefabs/creatures/boy_4.tscn" id="9_pg1gt"]
 [ext_resource type="PackedScene" uid="uid://dg1hilcb8k8v2" path="res://prefabs/creatures/boy_2.tscn" id="9_qb78u"]
 [ext_resource type="Script" path="res://scripts/enemy_lineup.gd" id="11_x7lxo"]
-[ext_resource type="Script" path="res://scripts/ui/resolve.gd" id="12_2shqs"]
 [ext_resource type="Theme" uid="uid://cpdek10qbdbfo" path="res://theme.tres" id="12_ssupt"]
 [ext_resource type="PackedScene" uid="uid://b8unco5ttnbk4" path="res://prefabs/ui/win.tscn" id="14_8fahv"]
 [ext_resource type="PackedScene" uid="uid://i6j8wif10f87" path="res://prefabs/ui/loss.tscn" id="15_mn42j"]
 [ext_resource type="PackedScene" uid="uid://d3j2maw7j58a4" path="res://prefabs/ui/tie.tscn" id="16_rqa6f"]
-[ext_resource type="Script" path="res://scripts/ui/continue.gd" id="20_ocjp1"]
+[ext_resource type="Script" path="res://scripts/ui/ui_control.gd" id="21_52b0o"]
 [ext_resource type="Script" path="res://scripts/effects.gd" id="21_fblj1"]
 [ext_resource type="Script" path="res://scripts/world.gd" id="23_32md0"]
 [ext_resource type="TileSet" uid="uid://covx5k6bh2t5x" path="res://tileset.tres" id="24_v6ult"]
@@ -34,21 +33,31 @@
 [ext_resource type="Script" path="res://scripts/sprites/player_sprite.gd" id="28_a5kdn"]
 [ext_resource type="Script" path="res://scripts/ui/dialouge.gd" id="31_po6tj"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_a65ko"]
-size = Vector2(128, 30)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qeuaa"]
 size = Vector2(30, 30)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cbxwj"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vjqmi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cnbrx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3ld3i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hn445"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8aef5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lm0sr"]
 
 [node name="main" type="Node"]
 script = ExtResource("1_7bbcl")
 world_obstruction_layer = 2
 
-[node name="battle" type="Node2D" parent="."]
-visible = false
+[node name="battle" type="Node2D" parent="." node_paths=PackedStringArray("resolve_button")]
 script = ExtResource("2_42e1u")
+resolve_button = NodePath("../ui/battle_container/panel/container/resolve_container/resolve/button")
+battle_dialog_rect = Rect2(534, 1290, 52, 52)
 
 [node name="measures" type="Node2D" parent="battle"]
 
@@ -157,46 +166,14 @@ win_prefab = ExtResource("14_8fahv")
 tie_prefab = ExtResource("16_rqa6f")
 loss_prefab = ExtResource("15_mn42j")
 
-[node name="ui" type="Node2D" parent="battle"]
-
-[node name="resolve" type="StaticBody2D" parent="battle/ui"]
-position = Vector2(530, 148)
-script = ExtResource("12_2shqs")
-
-[node name="collider" type="CollisionShape2D" parent="battle/ui/resolve"]
-shape = SubResource("RectangleShape2D_a65ko")
-
-[node name="center" type="CenterContainer" parent="battle/ui/resolve"]
-offset_right = 40.0
-offset_bottom = 40.0
-use_top_left = true
-
-[node name="text" type="Label" parent="battle/ui/resolve/center"]
-layout_mode = 2
-theme = ExtResource("12_ssupt")
-text = "RESOLVE"
-
-[node name="continue" type="StaticBody2D" parent="battle/ui"]
-position = Vector2(530, 108)
-script = ExtResource("20_ocjp1")
-
-[node name="collider" type="CollisionShape2D" parent="battle/ui/continue"]
-shape = SubResource("RectangleShape2D_a65ko")
-
-[node name="center" type="CenterContainer" parent="battle/ui/continue"]
-offset_right = 40.0
-offset_bottom = 40.0
-use_top_left = true
-
-[node name="text" type="Label" parent="battle/ui/continue/center"]
-layout_mode = 2
-theme = ExtResource("12_ssupt")
-text = "CONTINUE"
+[node name="ui_control" type="Node2D" parent="battle"]
+script = ExtResource("21_52b0o")
 
 [node name="effects" type="Node2D" parent="battle"]
 script = ExtResource("21_fblj1")
 
 [node name="world" type="Node2D" parent="."]
+visible = false
 script = ExtResource("23_32md0")
 
 [node name="water" type="TileMapLayer" parent="world"]
@@ -211,11 +188,13 @@ tile_set = ExtResource("24_v6ult")
 position = Vector2(182, 78)
 script = ExtResource("26_bai26")
 dialouge = Array[String](["AMBER VALLEY\\nBeware of wolves!"])
+dialouge_texture_rect = Rect2(534, 1234, 52, 52)
 
 [node name="collider" type="CollisionShape2D" parent="world/sign"]
 shape = SubResource("RectangleShape2D_qeuaa")
 
 [node name="trainer" parent="world" instance=ExtResource("27_q56s8")]
+dialouge_texture_rect = Rect2(534, 1346, 52, 52)
 
 [node name="lineup" parent="world/trainer" index="1"]
 visible = false
@@ -265,37 +244,127 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
 
-[node name="dialouge" type="PanelContainer" parent="ui/dialouge_container" node_paths=PackedStringArray("label", "nine_patch")]
-visible = false
+[node name="container" type="HBoxContainer" parent="ui/dialouge_container"]
+layout_mode = 2
+
+[node name="panel1" type="Panel" parent="ui/dialouge_container/container"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_cbxwj")
+
+[node name="dialouge" type="PanelContainer" parent="ui/dialouge_container/container" node_paths=PackedStringArray("label", "nine_patch")]
 custom_minimum_size = Vector2(400, 86)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_vjqmi")
 script = ExtResource("31_po6tj")
 text_reveal_chars_per_sec = 20.0
 label = NodePath("margin/text")
 nine_patch = NodePath("ninepatch")
 
-[node name="ninepatch" type="NinePatchRect" parent="ui/dialouge_container/dialouge"]
+[node name="ninepatch" type="NinePatchRect" parent="ui/dialouge_container/container/dialouge"]
 layout_mode = 2
 texture = ExtResource("5_81dqa")
-region_rect = Rect2(534, 1234, 52, 52)
+region_rect = Rect2(534, 1346, 52, 52)
 patch_margin_left = 26
 patch_margin_top = 16
 patch_margin_right = 26
 patch_margin_bottom = 16
 
-[node name="margin" type="MarginContainer" parent="ui/dialouge_container/dialouge"]
+[node name="margin" type="MarginContainer" parent="ui/dialouge_container/container/dialouge"]
 layout_mode = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 8
 
-[node name="text" type="RichTextLabel" parent="ui/dialouge_container/dialouge/margin"]
+[node name="text" type="RichTextLabel" parent="ui/dialouge_container/container/dialouge/margin"]
 modulate = Color(0.0509804, 0.0666667, 0.0431373, 1)
 layout_mode = 2
 theme = ExtResource("12_ssupt")
 scroll_active = false
+
+[node name="panel2" type="Panel" parent="ui/dialouge_container/container"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_cnbrx")
+
+[node name="battle_container" type="HBoxContainer" parent="ui"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+
+[node name="panel" type="PanelContainer" parent="ui/battle_container"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_3ld3i")
+
+[node name="container" type="VBoxContainer" parent="ui/battle_container/panel"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="score" type="PanelContainer" parent="ui/battle_container/panel/container"]
+custom_minimum_size = Vector2(0, 124)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_hn445")
+
+[node name="nine_patch" type="NinePatchRect" parent="ui/battle_container/panel/container/score"]
+layout_mode = 2
+texture = ExtResource("5_81dqa")
+region_rect = Rect2(422, 1290, 52, 52)
+patch_margin_left = 26
+patch_margin_top = 26
+patch_margin_right = 26
+patch_margin_bottom = 26
+
+[node name="resolve_container" type="HBoxContainer" parent="ui/battle_container/panel/container"]
+layout_mode = 2
+alignment = 1
+
+[node name="resolve" type="PanelContainer" parent="ui/battle_container/panel/container/resolve_container"]
+custom_minimum_size = Vector2(150, 48)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_8aef5")
+
+[node name="nine_patch" type="NinePatchRect" parent="ui/battle_container/panel/container/resolve_container/resolve"]
+layout_mode = 2
+texture = ExtResource("5_81dqa")
+region_rect = Rect2(422, 1346, 52, 52)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="center" type="CenterContainer" parent="ui/battle_container/panel/container/resolve_container/resolve"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="ui/battle_container/panel/container/resolve_container/resolve/center"]
+self_modulate = Color(1, 0.937255, 1, 1)
+layout_mode = 2
+theme = ExtResource("12_ssupt")
+text = "RESOLVE"
+
+[node name="button" type="Button" parent="ui/battle_container/panel/container/resolve_container/resolve"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="info" type="PanelContainer" parent="ui/battle_container/panel/container"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_lm0sr")
+
+[node name="nine_patch2" type="NinePatchRect" parent="ui/battle_container/panel/container/info"]
+layout_mode = 2
+texture = ExtResource("5_81dqa")
+region_rect = Rect2(422, 1290, 52, 52)
+patch_margin_left = 26
+patch_margin_top = 26
+patch_margin_right = 26
+patch_margin_bottom = 26
+
+[connection signal="pressed" from="ui/battle_container/panel/container/resolve_container/resolve/button" to="battle/ui_control" method="resolve"]
 
 [editable path="world/trainer"]

@@ -1,9 +1,10 @@
 extends Node2D
 
 @onready var player: Node2D = get_node('/root/main/world/world_player')
-@onready var dialouge_ui: Control = get_node('/root/main/ui/dialouge_container/dialouge')
+@onready var dialouge_ui: Control = get_node('/root/main/ui/dialouge_container/container/dialouge')
 
 @export var dialouge: Array[String]
+@export var dialouge_texture_rect: Rect2
 
 var dialouge_index = -1
 
@@ -15,6 +16,7 @@ func interact():
 	if dialouge_index == -1:
 		player.active_interactable = self
 		dialouge_index = 0;
+		dialouge_ui.set_texture_rect(dialouge_texture_rect)
 		dialouge_ui.send_text(dialouge[dialouge_index])
 	else:
 		if dialouge_ui.progress():

@@ -33,3 +33,10 @@ func progress():
 	else:
 		return true
 
+func set_battle_mode():
+	var container:BoxContainer = get_parent()
+	container.alignment = BoxContainer.ALIGNMENT_BEGIN
+
+func set_world_mode():
+	var container:BoxContainer = get_parent()
+	container.alignment = BoxContainer.ALIGNMENT_CENTER

@@ -11,16 +11,11 @@ extends Node2D
 @onready var main:Node = get_node('/root/main')
 @onready var win_loss_mark:Node2D = get_node('/root/main/battle/measures/win_loss_mark')
 @onready var effects:Node2D = get_node('/root/main/battle/effects')
-@onready var continue_ui:Node2D = get_node('/root/main/battle/ui/continue')
 
 var dirty = false;
-var initalized = false;
 
 
 func _process(_delta: float) -> void:
-	if not initalized:
-		continue_ui.deactivate()
-		initalized = true
 
 	if dirty:
 		_recalculate_state()
@@ -95,7 +90,7 @@ func resolve():
 				continue
 	
 	if _score > 0:
-		continue_ui.activate()
+		print('continue')
 
 
 func _mark_win(matchup):
@@ -132,4 +127,3 @@ func _get_mark_pos(matchup):
 func clean_up():
 	for child in get_children():
 		child.queue_free()
-
