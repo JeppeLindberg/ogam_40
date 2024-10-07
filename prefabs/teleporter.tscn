@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://duwn7o5c6d4v5"]
+
+[ext_resource type="Script" path="res://scripts/interactables/teleporter.gd" id="1_p2jpd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ymq1"]
+size = Vector2(30, 30)
+
+[node name="teleporter" type="StaticBody2D"]
+position = Vector2(390, 234)
+script = ExtResource("1_p2jpd")
+
+[node name="collider" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_4ymq1")
+
+[node name="teleport_to" type="Node2D" parent="."]
+position = Vector2(-936, 1820)

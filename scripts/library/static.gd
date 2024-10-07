@@ -12,3 +12,10 @@ func pos_x_ascending(a, b):
 
 func x_ascending(a, b):
     return a.x < b.x
+
+func to_direction(a, b):
+    var delta = b - a
+    if abs(delta.x) > abs(delta.y):
+        return Vector2(delta.x, 0).normalized()
+    else:
+        return Vector2(0, delta.y).normalized()

@@ -24,10 +24,16 @@ func _process(delta: float) -> void:
 	var prev_buffered_movement = buffered_movement_direction
 
 	if _static.to_indexes(prev_position) != _static.to_indexes(global_position):
+		var triggers = main.get_nodes_at(_static.snap_to_grid(global_position), 'trigger')
 		var prev_direction = (global_position - prev_position).normalized()
-		if (prev_direction != movement_direction) or _is_pos_occupied(global_position + prev_direction * Vector2(_static.GRID_SIZE, _static.GRID_SIZE)):		
-			buffered_movement_direction = Vector2.ZERO
+
+		if not triggers.is_empty():
 			global_position = _static.snap_to_grid(global_position)
+			triggers[0].trigger()
+			buffered_movement_direction = Vector2.ZERO
+		elif (prev_direction != movement_direction) or _is_pos_occupied(global_position + prev_direction * Vector2(_static.GRID_SIZE, _static.GRID_SIZE)):
+			global_position = _static.snap_to_grid(global_position)
+			buffered_movement_direction = Vector2.ZERO
 
 	prev_position = global_position
 
