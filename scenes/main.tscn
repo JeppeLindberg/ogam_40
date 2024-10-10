@@ -211,10 +211,10 @@ region_enabled = true
 region_rect = Rect2(1262, 786, 52, 52)
 script = ExtResource("28_a5kdn")
 animation_frames_per_sec = 7.0
-walk_up_rect_cycle = Array[Rect2]([Rect2(1262, 786, 52, 52)])
-walk_down_rect_cycle = Array[Rect2]([Rect2(1262, 842, 52, 52)])
-walk_left_rect_cycle = Array[Rect2]([Rect2(1262, 730, 52, 52)])
-walk_right_rect_cycle = Array[Rect2]([Rect2(1262, 674, 52, 52)])
+walk_up_rect_cycle = Array[Rect2]([Rect2(1262, 786, 52, 52), Rect2(1318, 786, 52, 52), Rect2(1262, 786, 52, 52), Rect2(1374, 786, 52, 52)])
+walk_down_rect_cycle = Array[Rect2]([Rect2(1262, 842, 52, 52), Rect2(1318, 842, 52, 52), Rect2(1262, 842, 52, 52), Rect2(1374, 842, 52, 52)])
+walk_left_rect_cycle = Array[Rect2]([Rect2(1262, 730, 52, 52), Rect2(1318, 730, 52, 52), Rect2(1262, 730, 52, 52), Rect2(1374, 730, 52, 52)])
+walk_right_rect_cycle = Array[Rect2]([Rect2(1262, 674, 52, 52), Rect2(1318, 674, 52, 52), Rect2(1262, 674, 52, 52), Rect2(1374, 674, 52, 52)])
 
 [node name="teleporter" parent="world" instance=ExtResource("25_2o0u6")]
 
