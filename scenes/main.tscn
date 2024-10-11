@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=4 uid="uid://c4h4ka6fhfj38"]
+[gd_scene load_steps=47 format=4 uid="uid://c4h4ka6fhfj38"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_7bbcl"]
 [ext_resource type="PackedScene" uid="uid://b86ixwuthwdii" path="res://prefabs/hand_tile.tscn" id="1_18bvh"]
@@ -33,6 +33,7 @@
 [ext_resource type="PackedScene" uid="uid://m0si2xtdd6kl" path="res://prefabs/trainer.tscn" id="27_q56s8"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="28_432y1"]
 [ext_resource type="Script" path="res://scripts/sprites/character_sprite.gd" id="28_a5kdn"]
+[ext_resource type="Script" path="res://scripts/interactables/dad_trigger.gd" id="31_f6qcx"]
 [ext_resource type="Script" path="res://scripts/ui/ui.gd" id="31_g1cjy"]
 [ext_resource type="Script" path="res://scripts/ui/dialouge.gd" id="31_po6tj"]
 
@@ -40,6 +41,9 @@
 size = Vector2(30, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qeuaa"]
+size = Vector2(30, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1v660"]
 size = Vector2(30, 30)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cbxwj"]
@@ -191,7 +195,11 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAOABYAAAABAAAAAAAPABYAAAACAAAAAAAOABc
 tile_set = ExtResource("24_v6ult")
 
 [node name="props" type="TileMapLayer" parent="world"]
-tile_map_data = PackedByteArray("AAD2/yYAAAAKABIAAAD3/yYAAAALABIAAAA=")
+tile_map_data = PackedByteArray("AAD2/yYAAAAKABIAAAD3/yYAAAALABIAAAD1/ycAAAAJABEAAAD2/yQAAAAKABAAAAA=")
+tile_set = ExtResource("24_v6ult")
+
+[node name="props2" type="TileMapLayer" parent="world"]
+tile_map_data = PackedByteArray("AAD2/yYAAAAKABAAAAA=")
 tile_set = ExtResource("24_v6ult")
 
 [node name="dad" type="StaticBody2D" parent="world"]
@@ -199,7 +207,7 @@ position = Vector2(-494, 2002)
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("25_d1pe5")
-dialouge = Array[String](["Happy birthday!"])
+dialouge = Array[String](["DAD: Happy birthday!"])
 dialouge_texture_rect = Rect2(534, 1346, 52, 52)
 
 [node name="collider" type="CollisionShape2D" parent="world/dad"]
@@ -251,8 +259,15 @@ position = Vector2(-546, 2106)
 [node name="teleport_to" parent="world/teleporter2" index="1"]
 position = Vector2(936, -1820)
 
+[node name="dad_trigger" type="StaticBody2D" parent="world"]
+position = Vector2(-546, 2054)
+script = ExtResource("31_f6qcx")
+
+[node name="collider" type="CollisionShape2D" parent="world/dad_trigger"]
+shape = SubResource("RectangleShape2D_1v660")
+
 [node name="world_player" type="Node2D" parent="world"]
-position = Vector2(286, 234)
+position = Vector2(-494, 1898)
 script = ExtResource("25_ri4wq")
 movement_speed = 80.0
 

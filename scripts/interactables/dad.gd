@@ -43,3 +43,6 @@ func finish_interaction():
 	dialouge_index = -1
 	dialouge_ui.clear_text()
 	player.active_interactable = null
+
+func start_intro_cutscene():
+	print('bla')
