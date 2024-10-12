@@ -19,3 +19,9 @@ func to_direction(a, b):
 		return Vector2(delta.x, 0).normalized()
 	else:
 		return Vector2(0, delta.y).normalized()
+
+func has_passed_pos(before, after, pos):
+	if (before - pos).normalized() != (after - pos).normalized():
+		return true
+	else:
+		return false

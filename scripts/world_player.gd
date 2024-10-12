@@ -21,17 +21,18 @@ func _process(delta: float) -> void:
 	while len(_prev_global_positions) < 2:
 		_prev_global_positions.push_front(global_position)
 
-	if _static.to_indexes(_prev_global_positions[0]) != _static.to_indexes(global_position):
-		var triggers = main.get_nodes_at(_static.snap_to_grid(global_position), 'trigger')
-		var prev_direction = (global_position - _prev_global_positions[0]).normalized()
+	if active_interactable == null:
+		if _static.to_indexes(_prev_global_positions[0]) != _static.to_indexes(global_position):
+			var triggers = main.get_nodes_at(_static.snap_to_grid(global_position), 'trigger')
+			var prev_direction = (global_position - _prev_global_positions[0]).normalized()
 
-		if (active_interactable == null) and (not triggers.is_empty()):
-			global_position = _static.snap_to_grid(global_position)
-			triggers[0].trigger()
-			_buffered_movement_direction = Vector2.ZERO
-		elif (prev_direction != _movement_direction) or _is_pos_occupied(global_position + prev_direction * Vector2(_static.GRID_SIZE, _static.GRID_SIZE)):
-			global_position = _static.snap_to_grid(global_position)
-			_buffered_movement_direction = Vector2.ZERO
+			if not triggers.is_empty():
+				global_position = _static.snap_to_grid(global_position)
+				triggers[0].trigger()
+				_buffered_movement_direction = Vector2.ZERO
+			elif (prev_direction != _movement_direction) or _is_pos_occupied(global_position + prev_direction * Vector2(_static.GRID_SIZE, _static.GRID_SIZE)):
+				global_position = _static.snap_to_grid(global_position)
+				_buffered_movement_direction = Vector2.ZERO
 
 	_prev_global_positions.push_front(global_position)
 	_prev_global_positions.pop_back()
@@ -55,6 +56,11 @@ func _process(delta: float) -> void:
 func return_from_battle():
 	if active_interactable != null:
 		active_interactable.return_from_battle()
+
+func set_look_direction(direction):
+	_look_direction = direction
+	for i in range(len(_prev_global_positions)):
+		_prev_global_positions[i] = global_position
 
 func _handle_controls(_delta):
 	var input := Input.get_vector("move_left", "move_right", "move_up", "move_down")
