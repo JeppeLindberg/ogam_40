@@ -25,7 +25,7 @@ func _process(delta: float) -> void:
 		var triggers = main.get_nodes_at(_static.snap_to_grid(global_position), 'trigger')
 		var prev_direction = (global_position - _prev_global_positions[0]).normalized()
 
-		if not triggers.is_empty():
+		if (active_interactable == null) and (not triggers.is_empty()):
 			global_position = _static.snap_to_grid(global_position)
 			triggers[0].trigger()
 			_buffered_movement_direction = Vector2.ZERO

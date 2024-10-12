@@ -24,10 +24,11 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_prev_global_position = global_position
-	
-	if _state == 'intro_cutscene_1':
+
+	if _state in ['intro_cutscene_1', 'intro_cutscene_4']:
 		var first_iteration = false
 		if global_position == _target_position:
+			print(_state)
 			global_position = _static.snap_to_grid(global_position)
 			_path_index += 1
 			if _path_index >= len(_path_nodes_dad):
@@ -39,14 +40,18 @@ func _process(delta: float) -> void:
 		var movement_direction = (_target_position - global_position).normalized()
 
 		global_position += movement_direction * player.movement_speed * delta
-		if (not first_iteration) and (_static.to_indexes(_prev_global_position) != _static.to_indexes(global_position)):
+		if (not first_iteration) and \
+			(_static.to_indexes(_prev_global_position) != _static.to_indexes(global_position)) and \
+			(_static.to_indexes(global_position) == _static.to_indexes(_target_position)):
 			global_position = _target_position
 
-	if _state == 'intro_cutscene_3':
+	if _state in ['intro_cutscene_3', 'intro_cutscene_5']:
 		var first_iteration = false
 		if player.global_position == _target_position:
+			print(_state)
 			player.global_position = _static.snap_to_grid(player.global_position)
 			_path_index += 1
+			print(_path_index)
 			if _path_index >= len(_path_nodes_player):
 				finish_interaction()
 				return
@@ -57,7 +62,9 @@ func _process(delta: float) -> void:
 
 		var player_prev_pos = player.global_position
 		player.global_position += movement_direction * player.movement_speed * delta
-		if (not first_iteration) and (_static.to_indexes(player_prev_pos) != _static.to_indexes(player.global_position)):
+		if (not first_iteration) and \
+			(_static.to_indexes(player_prev_pos) != _static.to_indexes(player.global_position)) and \
+			(_static.to_indexes(player.global_position) == _static.to_indexes(_target_position)):
 			player.global_position = _target_position
 
 	_handle_sprite()
@@ -106,6 +113,7 @@ func _handle_sprite():
 func finish_interaction():
 	_dialouge_index = -1
 	_path_index = -1
+	_target_position = global_position
 	dialouge_ui.clear_text()
 	if _state == 'start':
 		player.active_interactable = null
@@ -120,16 +128,31 @@ func finish_interaction():
 	elif _state == 'intro_cutscene_3':
 		_state = 'intro_cutscene_4'
 		_path_nodes_dad = intro_cutscene_4_path
+	elif _state == 'intro_cutscene_4':
+		_state = 'intro_cutscene_5'
+		global_position = dad_teleport_to.global_position
+		_path_nodes_player = intro_cutscene_5_path
+		_target_position = player.global_position
+	elif _state == 'intro_cutscene_5':
+		_state = 'intro_cutscene_6'
+		player.global_position = player_teleport_to.global_position
 
 
 var intro_cutscene_1_path:Array[Node2D] = []
 var intro_cutscene_2_path:Array[Node2D] = []
 var intro_cutscene_3_path:Array[Node2D] = []
 var intro_cutscene_4_path:Array[Node2D] = []
+var intro_cutscene_5_path:Array[Node2D] = []
+var player_teleport_to: Node2D = null
+var dad_teleport_to: Node2D = null
 
 func start_intro_cutscene(path_nodes):
 	intro_cutscene_1_path = [path_nodes[0]]
 	intro_cutscene_3_path = [path_nodes[1]]
+	intro_cutscene_4_path = [path_nodes[2]]
+	intro_cutscene_5_path = [path_nodes[3], path_nodes[2]]
+	player_teleport_to = path_nodes[4]
+	dad_teleport_to = path_nodes[5]
 	_state = 'intro_cutscene_1'
 	_target_position = global_position
 	player.active_interactable = self
