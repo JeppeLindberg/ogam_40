@@ -208,6 +208,7 @@ collision_layer = 3
 collision_mask = 3
 script = ExtResource("25_d1pe5")
 dialouge = Array[String](["DAD: Happy birthday!"])
+intro_cutscene_1_dialogue = Array[String](["DAD: Wait!", "I have one more surprise for you!", "Come with me, and I will show you."])
 dialouge_texture_rect = Rect2(534, 1346, 52, 52)
 
 [node name="collider" type="CollisionShape2D" parent="world/dad"]
@@ -259,12 +260,20 @@ position = Vector2(-546, 2106)
 [node name="teleport_to" parent="world/teleporter2" index="1"]
 position = Vector2(936, -1820)
 
-[node name="dad_trigger" type="StaticBody2D" parent="world"]
+[node name="dad_trigger" type="StaticBody2D" parent="world" node_paths=PackedStringArray("dad", "path_nodes")]
 position = Vector2(-546, 2054)
 script = ExtResource("31_f6qcx")
+dad = NodePath("../dad")
+path_nodes = [NodePath("1"), NodePath("2")]
 
 [node name="collider" type="CollisionShape2D" parent="world/dad_trigger"]
 shape = SubResource("RectangleShape2D_1v660")
+
+[node name="1" type="Node2D" parent="world/dad_trigger"]
+position = Vector2(0, -52)
+
+[node name="2" type="Node2D" parent="world/dad_trigger"]
+position = Vector2(-52, 0)
 
 [node name="world_player" type="Node2D" parent="world"]
 position = Vector2(-494, 1898)

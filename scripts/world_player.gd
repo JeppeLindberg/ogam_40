@@ -7,51 +7,50 @@ var _static := preload("res://scripts/library/static.gd").new()
 
 @export var movement_speed: float = 10.0
 
-var movement_direction: Vector2
-var pending_interact: bool = false
-var buffered_movement_direction: Vector2
-var prev_position: Vector2
-var look_direction = Vector2.DOWN
+var _movement_direction: Vector2
+var _pending_interact: bool = false
+var _buffered_movement_direction: Vector2
+var _prev_global_positions: Array[Vector2]
+var _look_direction = Vector2.DOWN
 var active_interactable = null
 
 
-func _process(delta: float) -> void:	
+func _process(delta: float) -> void:
 	_handle_controls(delta)
 
-	if movement_direction != Vector2.ZERO:
-		look_direction = movement_direction
+	while len(_prev_global_positions) < 2:
+		_prev_global_positions.push_front(global_position)
 
-	var prev_buffered_movement = buffered_movement_direction
-
-	if _static.to_indexes(prev_position) != _static.to_indexes(global_position):
+	if _static.to_indexes(_prev_global_positions[0]) != _static.to_indexes(global_position):
 		var triggers = main.get_nodes_at(_static.snap_to_grid(global_position), 'trigger')
-		var prev_direction = (global_position - prev_position).normalized()
+		var prev_direction = (global_position - _prev_global_positions[0]).normalized()
 
 		if not triggers.is_empty():
 			global_position = _static.snap_to_grid(global_position)
 			triggers[0].trigger()
-			buffered_movement_direction = Vector2.ZERO
-		elif (prev_direction != movement_direction) or _is_pos_occupied(global_position + prev_direction * Vector2(_static.GRID_SIZE, _static.GRID_SIZE)):
+			_buffered_movement_direction = Vector2.ZERO
+		elif (prev_direction != _movement_direction) or _is_pos_occupied(global_position + prev_direction * Vector2(_static.GRID_SIZE, _static.GRID_SIZE)):
 			global_position = _static.snap_to_grid(global_position)
-			buffered_movement_direction = Vector2.ZERO
+			_buffered_movement_direction = Vector2.ZERO
 
-	prev_position = global_position
+	_prev_global_positions.push_front(global_position)
+	_prev_global_positions.pop_back()
 
 	if active_interactable == null:
-		if (buffered_movement_direction == Vector2.ZERO) and (not _is_pos_occupied(global_position + movement_direction * Vector2(_static.GRID_SIZE, _static.GRID_SIZE))):
-			buffered_movement_direction = movement_direction
+		if (_buffered_movement_direction == Vector2.ZERO) and (not _is_pos_occupied(global_position + _movement_direction * Vector2(_static.GRID_SIZE, _static.GRID_SIZE))):
+			_buffered_movement_direction = _movement_direction
 
-		if (buffered_movement_direction == Vector2.ZERO) and pending_interact:
-			pending_interact = false
+		if (_buffered_movement_direction == Vector2.ZERO) and _pending_interact:
+			_pending_interact = false
 			_handle_interact()
 		else:
-			global_position += buffered_movement_direction * movement_speed * delta
+			global_position += _buffered_movement_direction * movement_speed * delta
 	else:
-		if pending_interact:
-			pending_interact = false
+		if _pending_interact:
+			_pending_interact = false
 			active_interactable.interact()
 
-	_handle_sprite(prev_buffered_movement, buffered_movement_direction)
+	_handle_sprite()
 
 func return_from_battle():
 	if active_interactable != null:
@@ -61,12 +60,12 @@ func _handle_controls(_delta):
 	var input := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	
 	if input.x != 0:
-		movement_direction = Vector2(input.x, 0).normalized();
+		_movement_direction = Vector2(input.x, 0).normalized();
 	else:
-		movement_direction = Vector2(0, input.y).normalized();
+		_movement_direction = Vector2(0, input.y).normalized();
 
 	if Input.is_action_just_pressed('interact'):
-		pending_interact = true
+		_pending_interact = true
 
 func _is_pos_occupied(pos):
 	var nodes = main.get_nodes_at(pos, '', main.world_obstruction_layer)
@@ -75,27 +74,29 @@ func _is_pos_occupied(pos):
 	else:
 		return true;
 	
-func _handle_sprite(prev_direction, new_direction):
-	if prev_direction != new_direction:
-		if prev_direction != Vector2.UP and new_direction == Vector2.UP:
-			sprite.walk_up()
-		elif prev_direction != Vector2.DOWN and new_direction == Vector2.DOWN:
-			sprite.walk_down()
-		elif prev_direction != Vector2.LEFT and new_direction == Vector2.LEFT:
-			sprite.walk_left()
-		elif prev_direction != Vector2.RIGHT and new_direction == Vector2.RIGHT:
-			sprite.walk_right()
-	elif new_direction == Vector2.ZERO:
-		if look_direction == Vector2.UP:
+func _handle_sprite():
+	if _prev_global_positions[1] == global_position:
+		if _look_direction == Vector2.UP:
 			sprite.look_up()
-		elif look_direction == Vector2.DOWN:
+		elif _look_direction == Vector2.DOWN:
 			sprite.look_down()
-		elif look_direction == Vector2.LEFT:
+		elif _look_direction == Vector2.LEFT:
 			sprite.look_left()
-		elif look_direction == Vector2.RIGHT:
+		elif _look_direction == Vector2.RIGHT:
 			sprite.look_right()
+	else:
+		var move_direction = _static.to_direction(_prev_global_positions[1], global_position)
+		_look_direction = move_direction
+		if move_direction == Vector2.UP:
+			sprite.walk_up()
+		elif move_direction == Vector2.DOWN:
+			sprite.walk_down()
+		elif move_direction == Vector2.LEFT:
+			sprite.walk_left()
+		elif move_direction == Vector2.RIGHT:
+			sprite.walk_right()
 
 func _handle_interact():
-	var interactables = main.get_nodes_at(global_position + look_direction * (_static.GRID_SIZE * 0.75), 'interactable')
+	var interactables = main.get_nodes_at(global_position + _look_direction * (_static.GRID_SIZE * 0.75), 'interactable')
 	if not interactables.is_empty():
 		interactables[0].interact()

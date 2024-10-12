@@ -1,11 +1,11 @@
 extends StaticBody2D
 
-var _static := preload("res://scripts/library/static.gd").new()
-
+@export var dad: Node2D
+@export var path_nodes: Array[Node2D]
 
 
 func _ready() -> void:
 	add_to_group('trigger')
 
 func trigger():
-	print('dad')
+	dad.start_intro_cutscene(path_nodes)
