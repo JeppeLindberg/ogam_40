@@ -9,6 +9,7 @@ var _static := preload("res://scripts/library/static.gd").new()
 @export var dialouge: Array[String]
 @export var intro_cutscene_1_dialogue: Array[String]
 @export var intro_cutscene_6_dialogue: Array[String]
+@export var intro_cutscene_10_dialogue: Array[String]
 @export var dialouge_texture_rect: Rect2
 
 var _dialouge_index = -1
@@ -49,7 +50,7 @@ func _process(delta: float) -> void:
 		if (not first_iteration) and _static.has_passed_pos(_prev_global_position, global_position, _target_position):
 			global_position = _target_position
 
-	if _state in ['intro_cutscene_3', 'intro_cutscene_5', 'intro_cutscene_8']:
+	if _state in ['intro_cutscene_3', 'intro_cutscene_5', 'intro_cutscene_8', 'intro_cutscene_9', 'intro_cutscene_11']:
 		first_iteration = false
 		if player.global_position == _player_target_position:
 			player.global_position = _static.snap_to_grid(player.global_position)
@@ -71,7 +72,7 @@ func _process(delta: float) -> void:
 
 
 func interact():
-	if _state in ['start', 'intro_cutscene_2', 'intro_cutscene_6']:
+	if _state in ['start', 'intro_cutscene_2', 'intro_cutscene_6', 'intro_cutscene_10']:
 		if _dialouge_index == -1:
 			_path_index_dad = -1;
 			_path_index_player = -1;
@@ -113,14 +114,14 @@ func _handle_sprite():
 			sprite.walk_right()
 
 func finish_interaction():
-	print('finish')
 	_dialouge_index = -1
 	_path_index_dad = -1
 	_path_index_player = -1
 	_target_position = global_position
 	_player_target_position = player.global_position
 	dialouge_ui.clear_text()
-	if _state == 'start':
+	if _state in ['start', 'intro_cutscene_11']:
+		_state = 'start'
 		player.active_interactable = null
 	elif _state == 'intro_cutscene_1':
 		_state = 'intro_cutscene_2'
@@ -134,11 +135,11 @@ func finish_interaction():
 		_path_nodes_dad = intro_cutscene_4_path
 	elif _state == 'intro_cutscene_4':
 		_state = 'intro_cutscene_5'
-		global_position = dad_teleport_to.global_position
+		global_position = dad_teleport_to_1.global_position
 		_path_nodes_player = intro_cutscene_5_path
 	elif _state == 'intro_cutscene_5':
 		_state = 'intro_cutscene_6'
-		player.global_position = player_teleport_to.global_position
+		player.teleport_to_pos(player_teleport_to_1.global_position)
 		dialouge = intro_cutscene_6_dialogue
 		interact()
 	elif _state == 'intro_cutscene_6':
@@ -150,6 +151,16 @@ func finish_interaction():
 		_path_nodes_player = intro_cutscene_8_player_path
 	elif _state == 'intro_cutscene_8':
 		_state = 'intro_cutscene_9'
+		global_position = dad_teleport_to_2.global_position
+		_path_nodes_player = intro_cutscene_9_path
+	elif _state == 'intro_cutscene_9':
+		_state = 'intro_cutscene_10'
+		player.teleport_to_pos(player_teleport_to_2.global_position)
+		dialouge = intro_cutscene_10_dialogue
+		interact()
+	elif _state == 'intro_cutscene_10':
+		_state = 'intro_cutscene_11'
+		_path_nodes_player = intro_cutscene_11_path
 
 
 var intro_cutscene_1_path:Array[Node2D] = []
@@ -160,19 +171,27 @@ var intro_cutscene_5_path:Array[Node2D] = []
 var intro_cutscene_7_path:Array[Node2D] = []
 var intro_cutscene_8_dad_path:Array[Node2D] = []
 var intro_cutscene_8_player_path:Array[Node2D] = []
-var player_teleport_to: Node2D = null
-var dad_teleport_to: Node2D = null
+var intro_cutscene_9_path:Array[Node2D] = []
+var intro_cutscene_11_path:Array[Node2D] = []
+var player_teleport_to_1: Node2D = null
+var player_teleport_to_2: Node2D = null
+var dad_teleport_to_1: Node2D = null
+var dad_teleport_to_2: Node2D = null
 
 func start_intro_cutscene(path_nodes):
 	intro_cutscene_1_path = [path_nodes[0]]
 	intro_cutscene_3_path = [path_nodes[1]]
 	intro_cutscene_4_path = [path_nodes[2]]
 	intro_cutscene_5_path = [path_nodes[3], path_nodes[2]]
-	player_teleport_to = path_nodes[4]
-	dad_teleport_to = path_nodes[5]
+	player_teleport_to_1 = path_nodes[4]
+	dad_teleport_to_1 = path_nodes[5]
 	intro_cutscene_7_path = [path_nodes[6]]
 	intro_cutscene_8_dad_path = [path_nodes[7], path_nodes[8], path_nodes[9], path_nodes[10]]
 	intro_cutscene_8_player_path = [path_nodes[7], path_nodes[8], path_nodes[9]]
+	intro_cutscene_9_path = [path_nodes[10]]
+	dad_teleport_to_2 = path_nodes[11]
+	player_teleport_to_2 = path_nodes[12]
+	intro_cutscene_11_path = [path_nodes[13]]
 	_state = 'intro_cutscene_1'
 	_target_position = global_position
 	player.active_interactable = self

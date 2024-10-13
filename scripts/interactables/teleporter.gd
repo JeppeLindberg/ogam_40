@@ -10,4 +10,4 @@ func _ready() -> void:
 	add_to_group('trigger')
 
 func trigger():
-	player_world.global_position = _static.snap_to_grid(teleport_to.global_position)
+	player_world.teleport_to_pos(_static.snap_to_grid(teleport_to.global_position))

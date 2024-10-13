@@ -18,6 +18,9 @@ var active_interactable = null
 func _process(delta: float) -> void:
 	_handle_controls(delta)
 
+	if _movement_direction != Vector2.ZERO:
+		_look_direction = _movement_direction
+
 	while len(_prev_global_positions) < 2:
 		_prev_global_positions.push_front(global_position)
 
@@ -61,6 +64,10 @@ func set_look_direction(direction):
 	_look_direction = direction
 	for i in range(len(_prev_global_positions)):
 		_prev_global_positions[i] = global_position
+	
+func teleport_to_pos(new_position):
+	global_position = new_position
+	set_look_direction(_look_direction)
 
 func _handle_controls(_delta):
 	var input := Input.get_vector("move_left", "move_right", "move_up", "move_down")
